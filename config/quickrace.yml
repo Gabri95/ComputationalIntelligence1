@@ -3,6 +3,10 @@ players:
       working_dir: ../torcs-client
       start_command: ['./start.sh', '-p', '3001']
       output_dir: ./output/
+    student1:
+      working_dir: ../torcs-client
+      start_command: ['./start.sh', '-p', '3001']
+      output_dir: ./output/
 controller:
   torcs_config_file: ../config/quickrace.xml
 rater:

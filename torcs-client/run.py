@@ -2,6 +2,7 @@
 
 from pytocl.main import main
 from my_driver import MyDriver
+from pytocl.driver import Driver
 import argparse
 
 
@@ -24,3 +25,5 @@ if __name__ == '__main__':
     #main(MyDriver(args.w))
 
     main(MyDriver())
+
+    #main(Driver())

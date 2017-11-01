@@ -35,7 +35,7 @@ class Model():
         # Moreover, the neurons have to be in the following order: input, output, hidden.
         
         #initialize randomly the parameters
-        self.W = np.random.normal(0, 0.1, (H+O, I+H+O))
+        self.W = np.random.normal(0, 1, (H+O, I+H+O))
 
         
 
