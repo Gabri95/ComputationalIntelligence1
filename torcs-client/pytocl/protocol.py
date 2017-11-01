@@ -2,8 +2,8 @@ import enum
 import logging
 import socket
 
-from .car import State as CarState
-from .driver import Driver
+from pytocl.car import State as CarState
+from pytocl.driver import Driver
 
 _logger = logging.getLogger(__name__)
 

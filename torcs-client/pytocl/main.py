@@ -2,7 +2,8 @@
 import argparse
 import logging
 
-from .protocol import Client
+from pytocl.protocol import Client
+from pytocl.driver import Driver
 
 
 def main(driver):
@@ -23,6 +24,7 @@ def main(driver):
         type=int,
         default=3001
     )
+    
     parser.add_argument('-v', help='Debug log level.', action='store_true')
     args = parser.parse_args()
 
@@ -43,6 +45,5 @@ def main(driver):
 
 
 if __name__ == '__main__':
-    from pytocl.driver import Driver
 
     main(Driver())

@@ -1,8 +1,18 @@
-from .pytocl.driver import Driver
-from .pytocl.car import State, Command
-
+from pytocl.driver import Driver
+from pytocl.car import State, Command
+from model import Model
 
 class MyDriver(Driver):
+    
+    
+    def __init__(self, weights_file):
+        super(MyDriver, self).__init__()
+        self.model = Model(weights_file)
+    
+    def __init__(self):
+        super(MyDriver, self).__init__()
+        self.model = Model(26, 1, 15)
+    
     
     def drive(self, carstate: State) -> Command:
         """
@@ -12,13 +22,16 @@ class MyDriver(Driver):
         lot of inputs. But it will get the car (if not disturbed by other
         drivers) successfully driven along the race track.
         """
+        
+        input = carstate.to_input_array()
+        
+        output = self.model.step(input)
+        
         command = Command()
         self.steer(carstate, 0.0, command)
 
-        # ACC_LATERAL_MAX = 6400 * 5
-        # v_x = min(80, math.sqrt(ACC_LATERAL_MAX / abs(command.steering)))
-        v_x = 80
-
+        v_x = output[0]
+        
         self.accelerate(carstate, v_x, command)
 
         if self.data_logger:

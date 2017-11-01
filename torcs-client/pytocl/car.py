@@ -112,7 +112,7 @@ class State(Value):
         return -1 not in self.focused_distances_from_edge
     
     def to_input_array(self):
-        array = np.zeros((32,))
+        array = np.zeros((26,))
 
         array[0] = self.angle / 180.0
         #self.current_lap_time
