@@ -25,8 +25,19 @@ def main(driver):
         default=3001
     )
     
+    # parser.add_argument(
+    #     '-w',
+    #     '--parameters_file',
+    #     help='Model parameters.',
+    #     type=str
+    # )
+    
+    
+    
     parser.add_argument('-v', help='Debug log level.', action='store_true')
-    args = parser.parse_args()
+    
+    #args = parser.parse_args()
+    args, _ = parser.parse_known_args()
 
     # switch log level:
     if args.v:
@@ -39,8 +50,10 @@ def main(driver):
         format="%(asctime)s %(levelname)7s %(name)s %(message)s"
     )
 
+    #driver = driver_class(**args.__dict__)
+    
     # start client loop:
-    client = Client(driver=driver, **args.__dict__)
+    client = Client(driver=driver, **args.__dict__)#**{k:v for k, v in args.__dict__.items() if k not in {'w', 'parameters_file'}})
     client.run()
 
 

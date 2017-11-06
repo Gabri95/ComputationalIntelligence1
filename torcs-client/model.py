@@ -1,49 +1,79 @@
 
 import numpy as np
+from trainer import *
 
-class Model():
-    def __init__(self, weights_file):
-        file = open(weights_file, 'r')
-        lines = file.readline()
-
-        # the first line contains the number of input neurons and output neurons, separated by a comma
-        self.I, self.O = (int(n) for n in lines[0].split(','))
-        
-        # Matrix containing the connections from each neuron (input, hidden or output) to each hidden or output neuron.
-        # As a result, the size has to be (H+O)*(I+H+O).
-        # Moreover, the neurons have to be in the following order: input, output, hidden.
-        self.W = np.genfromtxt(weights_file, skip_header=1)
-
-        # from the shape of the parameters we can infer the number of hidden neurons
-        self.H = self.W.shape[0] - self.O
-        
-        assert self.H == self.W.shape[1] - self.I - self.O, "Error! Shape of the parameters not valid!"
-
-        # array containing the activiation values of each of the neurons
-        # N.B. input neurons are excluded
-        # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
-        self.V = np.zeros(self.O + self.H)
-
-    def __init__(self, I, O, H):
-        
-        #set the shape of the network
-        self.I, self.O, self.H = I, O, H
+class Model:
     
+    def __init__(self, parameters_file=None, genome=None, I=None, H=None, O=None):
+        
+        if not parameters_file is None:
+            
+            file = open(parameters_file, 'r')
+            
+            #read the first line
+            header = file.readline()
+            
+            # the first line contains the number of input neurons, output neurons and hidden neurons, separated by a comma
+            self.I, self.O, self.H = (int(n) for n in header[1:].split(','))
+            
+            # Matrix containing the connections from each neuron (input, hidden or output) to each hidden or output neuron.
+            # As a result, the size has to be (H+O)*(I+H+O).
+            # Moreover, the neurons have to be in the following order: input, output, hidden.
+            self.W = np.genfromtxt(parameters_file, skip_header=1)
+
+            assert (self.H+self.O)*(self.I+self.H+self.O) == len(self.W), "Error! Shape of the parameters not valid!"
+            
+            self.W = self.W.reshape((self.H+self.O,self.I+self.H+self.O))
+
+            # array containing the activiation values of each of the neurons
+            # N.B. input neurons are excluded
+            # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
+            self.V = np.zeros(self.O + self.H)
+
+        elif genome is not None and I is not None and H is not None and O is not None:
+            # set the shape of the network
+            self.I, self.O, self.H = I, O, H
     
-        # Matrix containing the connections from each neuron (input, hidden or output) to each hidden or output neuron.
-        # As a result, the size has to be (H+O)*(I+H+O).
-        # Moreover, the neurons have to be in the following order: input, output, hidden.
+            # Matrix containing the connections from each neuron (input, hidden or output) to each hidden or output neuron.
+            # As a result, the size has to be (H+O)*(I+H+O).
+            # Moreover, the neurons have to be in the following order: input, output, hidden.
+    
+            assert (H + O)*(I + H + O) == len(genome), 'Error! genome should contains the same number of elements as the expected weights matrix'
+            
+            # initialize randomly the parameters
+            self.W = genome.copy().resize((H + O, I + H + O))
+    
+            # array containing the activiation values of each of the neurons
+            # N.B. input neurons are excluded
+            # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
+            self.V = np.zeros(self.O + self.H)
+        elif I is not None and H is not None and O is not None:
+            
+            #set the shape of the network
+            self.I, self.O, self.H = I, O, H
         
-        #initialize randomly the parameters
-        self.W = np.random.normal(0, 1, (H+O, I+H+O))
-
         
-
-        # array containing the activiation values of each of the neurons
-        # N.B. input neurons are excluded
-        # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
-        self.V = np.zeros(self.O + self.H)
-        
+            # Matrix containing the connections from each neuron (input, hidden or output) to each hidden or output neuron.
+            # As a result, the size has to be (H+O)*(I+H+O).
+            # Moreover, the neurons have to be in the following order: input, output, hidden.
+            
+            #initialize randomly the parameters
+            self.W = np.random.normal(0, 1, (H+O, I+H+O))
+    
+            
+    
+            # array containing the activiation values of each of the neurons
+            # N.B. input neurons are excluded
+            # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
+            self.V = np.zeros(self.O + self.H)
+            
+        else:
+            raise ValueError('Error! No parameter specified!')
+    
+    #return the genome of this network, i.e. a 1-D array containing all the weights
+    def getGenome(self):
+        return self.W.copy().reshape(-1)
+    
     
     #return the total number of nodes in the network, including also the input layer
     def networkSize(self):
@@ -71,7 +101,7 @@ class Model():
     
     #save the parameters of the network to the specified file, in the correct format (the one accepted in the constructor)
     def save_to_file(self, file):
-        np.savetxt(file, self.W, header=str(self.I) + ', ' + str(self.O))
+        save_genome(file, self.W, self.I, self.O, self.H)
     
     
 #Sigmoid Function

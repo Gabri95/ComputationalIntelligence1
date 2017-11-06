@@ -112,41 +112,57 @@ class State(Value):
         return -1 not in self.focused_distances_from_edge
     
     def to_input_array(self):
-        array = np.zeros((26,))
-
-        array[0] = self.angle / 180.0
+        array = []#np.zeros((26,))
+        
+        array.append(self.angle / np.pi) #180.0
+        
+        
         #self.current_lap_time
-        array[1] = self.damage
-        array[2] = self.distance_from_start
+        
+        array.append(self.damage)
 
-        array[3] = self.distance_raced
-        array[4] = self.fuel
-        array[6 + self.gear] = 1
+        array.append(self.distance_from_start)
+
+        array.append(self.distance_raced)
+        
+        
+        #array.append(self.fuel)
+        
+        for gear in range(-1, 7):
+            if gear == self.gear:
+                array.append(1)
+            else:
+                array.append(0)
+        
 
         #self.last_lap_time
-        array[13] = min(self.opponents)
+        
+        for j in range(36):
+            array.append(self.opponents[j]/200.0)
         
         #self.race_position
 
-        array[14] = self.rpm
-        array[15] = self.speed_x
-        array[16] = self.speed_y
-        array[17] = self.speed_z
+        array.append(self.rpm)
+        array.append(self.speed_x)
+        array.append(self.speed_y)
+        array.append(self.speed_z)
+        
+        
+        for j in range(19):
+            array.append(self.distances_from_edge[j])
 
-        array[18] = min(self.distances_from_edge)
-        
-        array[19] = self.distance_from_center
+        array.append(self.distance_from_center)
 
-        array[20] = self.wheel_velocities[0]
-        array[21] = self.wheel_velocities[1]
-        array[22] = self.wheel_velocities[2]
-        array[23] = self.wheel_velocities[3]
+        for j in range(4):
+            array.append(self.wheel_velocities[j])
+
+        array.append(self.z)
         
-        array[24] = self.z
+        #TODO - deal with problem that those values are reliable only once every second
+        # for i in range(5):
+        #     array.append(self.focused_distances_from_edge[i]/200.0)
         
-        array[25] = min(self.focused_distances_from_edge)
-        
-        return array
+        return np.array(array)
         
     
     

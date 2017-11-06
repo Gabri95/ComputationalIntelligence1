@@ -1,6 +1,7 @@
 .idea
 torcs-client/test/.cache
-torcs-client/__pycache__/
-torcs-client/drivelogs/
-torcs-client/output/
+torcs-client/__pycache__
+torcs-client/drivelogs
+torcs-client/output
+torcs-client/pytocl/__pycache__
 torcs-server

@@ -1,0 +1,15 @@
+
+    - cambiare impostazioni gara
+        - interpretare xml file                                                                             (v)
+        - bloccare corsa se auto non si muove per più di un tot
+        - bloccare corsa dopo tempo X
+    
+    - valutazione modelli
+        - INTERPRETARE file results.csv
+        - come eseguire più modelli/test e salvare i loro risultati, etc..                                  (v)
+    
+    - mettere a posto lettura parametri etc.. in run.py                                                     (V)
+    
+    - capire significato State (input) e Command (output)
+        - quali input sono sensati (eg. davero ci serve il 'fuel'? dobbiamo/possiamo fare rifornimento?)    (v)
+        - abbiamo controllo su tutti i Comandi? possiamo cambiare marcia, etc..?

@@ -1,13 +1,13 @@
 players:
     student1:
       working_dir: ../torcs-client
-      start_command: ['./start.sh', '-p', '3001'] #, '-w', '../rnd.params']
+      start_command: ['./start.sh', '-p', '3001'] #, '-w', '../rnd.param']
       output_dir: ./output/
     student2:
       working_dir: ../torcs-client
-      start_command: ['./start.sh', '-p', '3001', '-w', '../rnd.params']
+      start_command: ['./start.sh', '-p', '3002'] #, '-w', '../rnd.param']
       output_dir: ./output/
 controller:
-  torcs_config_file: ../config/quickrace.xml
+  torcs_config_file: ../config/quickrace_multiplayer.xml
 rater:
   filename: ../ratings.csv

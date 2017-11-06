@@ -2,18 +2,19 @@ from pytocl.driver import Driver
 from pytocl.car import State, Command
 from model import Model
 
+
 class MyDriver(Driver):
     
-    
-    def __init__(self, weights_file):
+    def __init__(self, parameters_file=None, **kwargs):
         super(MyDriver, self).__init__()
-        self.model = Model(weights_file)
-    
-    def __init__(self):
-        super(MyDriver, self).__init__()
-        self.model = Model(26, 1, 15)
-    
-    
+        
+        if parameters_file is not None:
+            print(parameters_file)
+            self.model = Model(parameters_file=parameters_file)
+        else:
+            print('NO WEIGHTS FILE')
+            self.model = Model(I=77, O=1, H=30)
+            
     def drive(self, carstate: State) -> Command:
         """
         Produces driving command in response to newly received car state.
@@ -24,13 +25,13 @@ class MyDriver(Driver):
         """
         
         input = carstate.to_input_array()
-        
+        print('Input len = ' + str(len(input)))
         output = self.model.step(input)
         
         command = Command()
         self.steer(carstate, 0.0, command)
 
-        v_x = output[0]
+        v_x = min(output[0], 90)
         
         self.accelerate(carstate, v_x, command)
 
