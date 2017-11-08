@@ -6,7 +6,8 @@ class Model:
     
     def __init__(self, parameters_file=None, genome=None, I=None, H=None, O=None):
         
-        if not parameters_file is None:
+        if parameters_file is not None:
+            print('Build model from file')
             
             file = open(parameters_file, 'r')
             
@@ -31,6 +32,9 @@ class Model:
             self.V = np.zeros(self.O + self.H)
 
         elif genome is not None and I is not None and H is not None and O is not None:
+            
+            print('Build model from genome')
+            
             # set the shape of the network
             self.I, self.O, self.H = I, O, H
     
@@ -48,6 +52,8 @@ class Model:
             # N.B the first O neurons are the output ones, while the last H ones are the hidden ones
             self.V = np.zeros(self.O + self.H)
         elif I is not None and H is not None and O is not None:
+            
+            print('Randomly initialize model')
             
             #set the shape of the network
             self.I, self.O, self.H = I, O, H
@@ -68,6 +74,7 @@ class Model:
             self.V = np.zeros(self.O + self.H)
             
         else:
+            print('Impossible to build model!')
             raise ValueError('Error! No parameter specified!')
     
     #return the genome of this network, i.e. a 1-D array containing all the weights
@@ -94,7 +101,7 @@ class Model:
         self.V[self.O:] = np.tanh(self.V[self.O:])
 
         # to the output neurons
-        #self.V[:self.O] = np.tanh(self.V[:self.O])
+        self.V[:self.O] = sigmoid(self.V[:self.O]) #np.tanh(self.V[:self.O])
         
         #return the output layer
         return self.V[:self.O]

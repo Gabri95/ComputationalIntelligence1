@@ -119,42 +119,42 @@ class State(Value):
         
         #self.current_lap_time
         
-        array.append(self.damage)
+        #array.append(self.damage)
 
-        array.append(self.distance_from_start)
+        #array.append(self.distance_from_start)
 
-        array.append(self.distance_raced)
+        #array.append(self.distance_raced)
         
         
         #array.append(self.fuel)
         
-        for gear in range(-1, 7):
-            if gear == self.gear:
-                array.append(1)
-            else:
-                array.append(0)
-        
+        # for gear in range(-1, 7):
+        #     if gear == self.gear:
+        #         array.append(1)
+        #     else:
+        #         array.append(0)
+        #
 
         #self.last_lap_time
         
-        for j in range(36):
-            array.append(self.opponents[j]/200.0)
+        # for j in range(36):
+        #     array.append(self.opponents[j]/200.0)
         
         #self.race_position
 
-        array.append(self.rpm)
-        array.append(self.speed_x)
-        array.append(self.speed_y)
-        array.append(self.speed_z)
+        #array.append(self.rpm/8000.0)
+        array.append(self.speed_x/40.0)
+        array.append(self.speed_y/40.0)
+        array.append(self.speed_z/10.0)
         
         
         for j in range(19):
-            array.append(self.distances_from_edge[j])
+            array.append(self.distances_from_edge[j]/200.0)
 
         array.append(self.distance_from_center)
 
         for j in range(4):
-            array.append(self.wheel_velocities[j])
+            array.append(self.wheel_velocities[j]/150.0)
 
         array.append(self.z)
         

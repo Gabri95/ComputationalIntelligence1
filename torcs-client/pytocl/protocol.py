@@ -30,12 +30,17 @@ class Client:
     """
 
     def __init__(self, hostname='localhost', port=3001, *,
-                 driver=None, serializer=None):
+                 driver=None, serializer=None, data_file=None):
         self.hostaddr = (hostname, port)
         self.driver = driver or Driver()
         self.serializer = serializer or Serializer()
         self.state = State.STOPPED
         self.socket = None
+        
+        if data_file is not None:
+            self.data_file = open(data_file, 'a')
+        else:
+            self.data_file = None
 
         _logger.debug('Initializing {}.'.format(self))
 
@@ -137,7 +142,15 @@ class Client:
                 _logger.debug(carstate)
 
                 command = self.driver.drive(carstate)
-
+                
+                if self.data_file is not None:
+                    data_to_store = []
+                    data_to_store += [command.accelerator, command.brake, command.steering]
+                    data_to_store += [carstate.speed_x, carstate.distance_from_center, carstate.angle]
+                    data_to_store += carstate.distances_from_edge
+                    data_to_store = [str(v) for v in data_to_store]
+                    self.data_file.write(', '.join(data_to_store) + '\n')
+                
                 _logger.debug(command)
                 buffer = self.serializer.encode(command.actuator_dict)
                 _logger.debug('Sending buffer {!r}.'.format(buffer))

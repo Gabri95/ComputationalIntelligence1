@@ -1,11 +1,7 @@
 players:
     student1:
       working_dir: ../torcs-client
-      start_command: ['./start.sh', '-p', '3001'] #, '-w', '../rnd.params']
-      output_dir: ./output/
-    student2:
-      working_dir: ../torcs-client
-      start_command: ['./start.sh', '-p', '3001', '-w', '../rnd.params']
+      start_command: ['./start.sh', '-p', '3001', '-w', '../rnd.param', '-o', '../model_results/results', '-d', '../train_data/stored_data']
       output_dir: ./output/
 controller:
   torcs_config_file: ../config/quickrace.xml

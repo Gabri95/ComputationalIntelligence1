@@ -25,13 +25,13 @@ def main(driver):
         default=3001
     )
     
-    # parser.add_argument(
-    #     '-w',
-    #     '--parameters_file',
-    #     help='Model parameters.',
-    #     type=str
-    # )
-    
+    parser.add_argument(
+        '-d',
+        '--data_file',
+        help='File where to store data.',
+        type=str
+    )
+
     
     
     parser.add_argument('-v', help='Debug log level.', action='store_true')
@@ -53,7 +53,7 @@ def main(driver):
     #driver = driver_class(**args.__dict__)
     
     # start client loop:
-    client = Client(driver=driver, **args.__dict__)#**{k:v for k, v in args.__dict__.items() if k not in {'w', 'parameters_file'}})
+    client = Client(driver=driver, **args.__dict__)
     client.run()
 
 

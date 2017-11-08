@@ -4,4 +4,10 @@ torcs-client/__pycache__
 torcs-client/drivelogs
 torcs-client/output
 torcs-client/pytocl/__pycache__
+torcs-client/*_err.txt
+torcs-client/*_out.txt
 torcs-server
+train_data
+model_results
+debug
+
